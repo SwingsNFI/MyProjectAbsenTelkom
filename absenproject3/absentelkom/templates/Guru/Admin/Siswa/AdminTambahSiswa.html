@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+{% block title %}Absen Telkom - Admin | Tambah Siswa{% endblock %}
+{% load static %}
+{% block extra_head %}
+  <link rel="icon" type="image/png" href="{% static 'img/ts-3.png' %}">
+  <link rel="stylesheet" href="{% static 'css/Guru/Admin/Siswa/AdminTambahSiswa-style.css' %}">
+  <script src="https://kit.fontawesome.com/9a9e698d27.js" crossorigin="anonymous"></script>
+{% endblock %}
+{% block content %}
+  <nav class="navbar navbar-light sticky-top bg-white flex-md-nowrap p-0">
+    <div class="col-md-3 col-lg-2 mr-0 px-3">
+      <a class="navbar-brand"><img src="{% static 'img/ts-2.png' %}" height="30" alt="Telkom Schools Logo"></a>
+    </div>
+    <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <ul class="navbar-nav px-3">
+      <li class="nav-item text-nowrap">
+        <p class="nav-text">{{ namauser }}</p>
+      </li>
+    </ul>
+  </nav>
+  <div class="container-fluid">
+    <div class="row">
+      <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+        <div class="sidebar-sticky pt-3">
+          <ul class="nav flex-column">
+            <p class="text-secondary"><small>Menu</small></p>
+            <li class="nav-item sidepilih">
+              <a class="nav-link" href="admin">
+                Dashboard <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item sidepilih">
+              <a class="nav-link" href="adminguru">                
+                Guru
+              </a>
+            </li>
+            <li class="nav-item sidepilih">
+              <a class="nav-link active" href="adminsiswa">                
+                Siswa
+              </a>
+            </li>
+            <li class="nav-item sidepilih">
+              <a class="nav-link" href="adminkelas">                
+                Kelas
+              </a>
+            </li>
+            <li class="nav-item sidepilih">
+              <a class="nav-link" href="adminacara">                
+                Acara
+              </a>
+            </li>
+            <p class="text-secondary"><small>Advanced</small></p>
+            <li class="nav-item sidepilih">
+              <a class="nav-link" href="adminpelajaran">
+                Pelajaran
+              </a>
+            </li>
+          </ul>
+          <div class="d-flex nav justify-content-center align-items-center">
+            <a href="logout" class="logobut"><i class="fas fa-sign-out-alt"></i>Logout</a>
+          </div> 
+        </div>
+      </nav>  
+      <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h1 class="h2">Siswa</h1>
+        </div>
+        <div class="d-flex align-items-center justify-content-center">
+          <div class="card w-50">
+            <div class="card-header">
+              <b>Tambah Siswa</b>
+            </div>
+            <div class="card-body">
+              <form class="needs-validation" action="tambahsiswaprocess" method="POST" novalidate>
+                {% csrf_token %}
+                <div class="form-group row">
+                  <label for="validationCustom01" class="col-sm-4 col-form-label">NIS</label>
+                  <div class="col-sm-7">
+                    <input type="text" class="form-control" id="validationCustom01" placeholder="NIS" maxlength="8" name="nis" required>
+                    <div class="invalid-feedback">
+                      Mohon untuk isi NIS.
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="validationCustom02" class="col-sm-4 col-form-label">Nama</label>
+                  <div class="col-sm-7">
+                    <input type="text" class="form-control" id="validationCustom02" placeholder="Nama" maxlength="49" name="namas" required>
+                    <div class="invalid-feedback">
+                      Mohon untuk isi Nama.
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="kelasg" class="col-sm-4 col-form-label">Kelas</label>
+                  <div class="col-sm-7">
+                    <select class="form-control custom-select" name="idkelass" required>
+                      {% for kelas in tbl_kelas %}
+                        <option value="{{ kelas.id_kelas }}">{{ kelas.nama_kelas }}</option>
+                      {% endfor %}
+                    </select>
+                    <div class="invalid-feedback">
+                      Mohon untuk isi Kelas.
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="validationCustom03" class="col-sm-4 col-form-label">Email</label>
+                  <div class="col-sm-7">
+                    <input type="email" class="form-control" id="validationCustom03" placeholder="Email" maxlength="49" name="emails" required>
+                    <div class="invalid-feedback">
+                      Mohon untuk isi Email.
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="validationCustom04" class="col-sm-4 col-form-label">Password</label>
+                  <div class="col-sm-7">
+                    <input type="text" class="form-control" id="validationCustom04" placeholder="Password" maxlength="20" name="passwords" required>
+                    <div class="invalid-feedback">
+                      Mohon untuk isi Password.
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="validationCustom04" class="col-sm-4 col-form-label">Jumlah Poin</label>
+                  <div class="col-sm-7">
+                    <input type="text" class="form-control" value="1" id="validationCustom04" placeholder="Nama" maxlength="20" name="poins" required readonly>
+                    <div class="invalid-feedback">
+                      Mohon untuk isi Jumlah Poin.
+                    </div>
+                  </div>
+                </div>
+              <button type="submit" class="btn btn-primary text-right">Submit</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      'use strict';
+      window.addEventListener('load', function() {
+        var forms = document.getElementsByClassName('needs-validation');
+        var validation = Array.prototype.filter.call(forms, function(form) {
+          form.addEventListener('submit', function(event) {
+            if (form.checkValidity() === false) {
+              event.preventDefault();
+              event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+          }, false);
+        });
+      }, false);
+    })();
+  </script>
+{% endblock %}

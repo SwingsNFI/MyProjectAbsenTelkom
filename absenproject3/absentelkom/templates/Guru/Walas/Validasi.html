@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% block title %}Absen Telkom - Validasi{% endblock %}
+{% load custom_template_tags %}
+{% load static %}
+{% block extra_head %}
+  <link rel="icon" type="image/png" href="{% static 'img/ts-3.png' %}">
+  <link rel="stylesheet" href="{% static 'css/Guru/Walas/Validasi-style.css' %}">
+  <script src="https://kit.fontawesome.com/9a9e698d27.js" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+{% endblock %}
+{% block content %}
+  <nav class="navbar navbar-light flex-md-nowrap p-0">
+    <div class="col-md-3 col-lg-2 mr-0 px-3">
+      <h4 class="nav-text">Validasi</h4>
+    </div>
+    <div class="dropdown nav-text righttext text-nowrap px-3">
+      <a class="dropdown-toggle"  href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        {{ namauser }}
+      </a>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+        <form action="logout" method="POST">
+          {% csrf_token %}
+          <button class="dropdown-item" type="submit">Logout</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+  <main role="main">
+    <form action="validasiprocess" method="POST">
+      {% csrf_token %}
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-5">
+        <h1 class="h1">{{ namaacara|upper }}</h1>  
+      </div>
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-4 border-bottom">
+        <h5 class="h5">{{ namakelas }}</h5>
+        <button type="submit" class="btn btn-primary">Submit<i class="fa fa-arrow-right"></i></button>        
+      </div>
+      <div class="table-box">
+        <div class="table-head flex-row">
+          <div class="table-cell-head small-cell text-wrap">
+            <p>#</p>
+          </div>
+          <div class="table-cell-head text-wrap">
+            <p>NIS</p>
+          </div>
+          <div class="table-cell-head text-wrap">
+            <p>Nama</p>
+          </div>
+          <div class="table-cell-head text-wrap">
+            <p>Kelas</p>
+          </div>
+          <div class="table-cell-head text-wrap small-cell">
+            <p>Check</p>
+          </div>
+        </div>
+        {% for absen in absens %}
+          {% for validasi in tbl_validasi %}
+            {% if validasi.id_absen_id == absen.id_absen %}
+              {% setvar "exist" as action %}
+            {% endif %}
+            {% if forloop.last %}
+              {% if action %}
+                
+              {% else %}
+                <div class="table-row flex-row">
+                  <div class="table-cell small-cell text-wrap">
+                    <p>{{ forloop.parentloop.counter }}</p>
+                  </div>
+                  <div class="table-cell text-wrap">
+                    <p>{{ absen.id_siswa_id }}</p>
+                  </div>
+                  <div class="table-cell text-wrap">
+                    <p>{{ absen.id_siswa.nama_siswa }}</p>
+                  </div>
+                  <div class="table-cell text-wrap">
+                    <p>{{ absen.id_siswa.id_kelas.nama_kelas }}</p>
+                  </div>
+                  <div class="table-cell text-wrap small-cell">
+                    <input type="checkbox" name="validasi{{ forloop.parentloop.counter }}" value="{{ absen.id_absen }}">
+                  </div>
+                </div>
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+          {% if forloop.last %}
+            <input type="hidden" value="{{ forloop.counter }}" name="lengthloop" id="lengthloop">
+          {% endif %}
+        {% endfor %}
+      </div>
+    </form>
+  </main>
+
+  <script>
+    $(document).ready(function(){
+      $(':checkbox').click(function(){
+        $('.table-row:has(:checked)').addClass('tablecheck');
+        $('.table-row:not(:has(:checked))').removeClass('tablecheck');
+      });
+      if ($('.table-row').length == 0){
+        $('.btn-primary').prop('disabled', true);
+      }
+    });
+  </script>
+{% endblock %}

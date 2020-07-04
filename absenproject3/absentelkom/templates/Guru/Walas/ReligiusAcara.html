@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title %}Absen Telkom - Acara{% endblock %}
+{% load static %}
+{% load custom_template_tags %}
+{% block extra_head %}
+  <link rel="icon" type="image/png" href="{% static 'img/ts-3.png' %}">
+  <link rel="stylesheet" href="{% static 'css/Guru/Walas/ReligiusAcara-style.css' %}">
+  <script src="https://kit.fontawesome.com/9a9e698d27.js" crossorigin="anonymous"></script>
+{% endblock %}
+{% block content %}
+  <header>
+    <div class="container">
+      <nav class="d-flex align-items-center justify-content-center">
+        <a class="back" onclick="window.history.back();">
+          <i class="fas fa-arrow-left"></i>
+        </a>
+        <p class="headev">ACARA</p>
+      </nav>
+      <div class="hero-text w-100 text-white px-2 px-sm-0">
+        <p class="display-4"><b>RELIGIUS</b></p>
+        <p class="lead"><q><i>Perilaku yang patuh dalam melaksanakan ajaran agama yang dianutnya dan hidup rukun dengan pemeluk agama lain.</i></q></p>
+      </div>
+    </div>
+  </header>
+  <main>
+    <section class="fungsi">
+      <div class="container">
+        <div class="info text-center">
+          <p>~ Tekan "VALIDATE" untuk validasi! ~</p>
+          <p class="text-muted"><small>Mau melihat validate terdahulu? <a href="">click here</a> (will be soon)</small></p>
+          <hr>
+        </div>
+        <div class="card-deck d-flex align-items-center justify-content-center">
+          <div class="row d-flex align-items-center justify-content-center">
+            {% for acara in acaras %}
+              {% if acara.waktu_acara|date:"SHORT_DATE_FORMAT" == todaydate|date:"SHORT_DATE_FORMAT" %}
+                {% if acara.waktu_acara|date:"H i s" <= today|date:"H i s" %}
+                  <div class="col-mb-3">
+                    <div class="card text-center border-light mb-3" style="max-width: 18rem;">
+                      <div class="card-header">{{ acara.nama_acara|upper }}</div>
+                      <div class="card-body scroll">
+                        <form action="kelas" method="POST">
+                          {% csrf_token %}
+                          <button type="submit" class="btn btn-danger" >VALIDATE</button>
+                          <input type="hidden" name="idacara" value="{{ acara.id_acara }}">
+                          <p class="card-text">{{ acara.keterangan_acara }}</p>
+                        </form>
+                      </div>
+                      <div class="card-footer">
+                        <small class="text-muted">Start: {{ acara.waktu_acara }}</small>
+                      </div>
+                    </div>
+                  </div>
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+{% endblock %}

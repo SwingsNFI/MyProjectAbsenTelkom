@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block title %}Absen Telkom - Kelas{% endblock %}
+{% load static %}
+{% load custom_template_tags %}
+{% block extra_head %}
+  <link rel="icon" type="image/png" href="{% static 'img/ts-3.png' %}">
+  <link rel="stylesheet" href="{% static 'css/Guru/Walas/PilihKelas-style.css' %}">
+  <script src="https://kit.fontawesome.com/9a9e698d27.js" crossorigin="anonymous"></script>
+{% endblock %}
+{% block content %}
+  <header>
+    <div class="container">
+      <nav class="d-flex align-items-center justify-content-center">
+        <a class="back" onclick="window.history.back();">
+          <i class="fas fa-arrow-left"></i>
+        </a>
+      </nav>
+      <div class="hero-text w-100 text-black px-2 px-sm-0">
+        <p class="display-4"><b>PILIH KELAS</b></p>
+        <p class="lead text-muted">Pastikan anda memilih kelas yang berhubungan dengan kelas anda!</p>
+      </div>
+    </div>
+  </header>
+  <form action="validasinonwalas" method="POST">
+    {% csrf_token %}
+    <main>
+      <section>
+        <div class="container d-flex align-items-center justify-content-center">
+          <div class="card-deck">
+            <div class="row d-flex align-items-center justify-content-center">
+              {% for kelas in tbl_kelas %}
+                <div class="col-mb-3">
+                  <input type="radio" name="idkelas" value="{{ kelas.id_kelas }}" id="kelas{{ forloop.counter }}">
+                  <label for="kelas{{ forloop.counter }}">
+                    <p>{{ kelas.nama_kelas|upper }}</p>
+                  </label>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <div class="kotakfoot d-flex justify-content-center">
+        <button type="submit">Lanjut</button>
+      </div>
+    </footer>
+  </form>
+{% endblock %}

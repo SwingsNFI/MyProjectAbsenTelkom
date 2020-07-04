@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+{% block title %}Absen Telkom - Admin{% endblock %}
+{% load static %}
+{% block extra_head %}
+  <link rel="icon" type="image/png" href="{% static 'img/ts-3.png' %}">
+  <link rel="stylesheet" href="{% static 'css/Guru/Admin/Pelajaran/AdminPelajaran-style.css' %}">
+  <script src="https://kit.fontawesome.com/9a9e698d27.js" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+{% endblock %}
+{% block content %}
+  <nav class="navbar navbar-light sticky-top bg-white flex-md-nowrap p-0">
+    <div class="col-md-3 col-lg-2 mr-0 px-3">
+      <a class="navbar-brand"><img src="{% static 'img/ts-2.png' %}" height="30" alt="Telkom Schools Logo"></a>
+    </div>
+    <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <input class="form-control form-control-white w-25" type="text" id="searchbar" placeholder="Search" aria-label="Search">
+    <ul class="navbar-nav px-3">
+      <li class="nav-item text-nowrap">
+        <p class="nav-text">{{ namauser }}</p>
+      </li>
+    </ul>
+  </nav>
+  <div class="container-fluid">
+    <div class="row">
+      <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+        <div class="sidebar-sticky pt-3">
+          <ul class="nav flex-column">
+            <p class="text-secondary"><small>Menu</small></p>
+            <li class="nav-item sidepilih">
+              <a class="nav-link" href="admin">
+                Dashboard <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item sidepilih">
+              <a class="nav-link" href="adminguru">                
+                Guru
+              </a>
+            </li>
+            <li class="nav-item sidepilih">
+              <a class="nav-link" href="adminsiswa">                
+                Siswa
+              </a>
+            </li>
+            <li class="nav-item sidepilih">
+              <a class="nav-link" href="adminkelas">                
+                Kelas
+              </a>
+            </li>
+            <li class="nav-item sidepilih">
+              <a class="nav-link" href="adminacara">                
+                Acara
+              </a>
+            </li>
+            <p class="text-secondary"><small>Advanced</small></p>
+            <li class="nav-item sidepilih">
+              <a class="nav-link active" href="adminpelajaran">
+                Pelajaran
+              </a>
+            </li>
+          </ul>
+          <div class="d-flex nav justify-content-center align-items-center">
+            <a href="logout" class="logobut"><i class="fas fa-sign-out-alt"></i>Logout</a>
+          </div>  
+        </div>
+      </nav>  
+      <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h1 class="h2">Jam Pelajaran</h1>
+          <form action="tambahpelajaran" method="POST">
+            {% csrf_token %}
+            <button class="tambahbut" type="submit">Tambah Jam-Pel</button>
+          </form>
+        </div>
+        <div class="table-box">
+          <div class="table-head flex-row">
+            <div class="table-cell-head small-cell text-wrap">
+              <p>#</p>
+            </div>
+            <div class="table-cell-head text-wrap">
+              <p>ID</p>
+            </div>
+            <div class="table-cell-head text-wrap">
+              <p>Nama Jam</p>
+            </div>
+            <div class="table-cell-head text-wrap">
+              <p>Waktu</p>
+            </div>
+            <div class="table-cell-head text-wrap small-cell">
+              <p>Edit</p>
+            </div>
+            <div class="table-cell-head text-wrap small-cell">
+              <p>Hapus</p>
+            </div>
+          </div>
+          <div id="tablebody">
+            {% for jampel_start in tbl_jampel_start %}
+              <div class="table-row flex-row">
+                <div class="table-cell small-cell text-wrap">
+                  <p>{{ forloop.counter }}</p>
+                </div>
+                <div class="table-cell text-wrap">
+                  <p>{{ jampel_start.id_jampel_start }}</p>
+                </div>
+                <div class="table-cell text-wrap">
+                  <p>{{ jampel_start.nama_jampel_start }}</p>
+                </div>
+                <div class="table-cell text-wrap">
+                  <p>{{ jampel_start.waktu_jampel_start|date:'H:i' }}</p>
+                </div>
+                <div class="table-cell text-wrap small-cell">
+                  <form action="editpelajaran" method="POST" name="editform{{ forloop.counter }}">
+                    {% csrf_token %}
+                    <input type="hidden" name="idstart" value="{{ jampel_start.id_jampel_start }}">
+                    <a href="javascript:;" onclick="document.forms['editform{{ forloop.counter }}'].submit();"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                  </form>
+                </div>
+                <div class="table-cell text-wrap small-cell">
+                  <a data-toggle="modal" data-target="#modal{{ forloop.counter }}"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                  <div class="modal fade" id="modal{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLongTitle">Delete?</h5>
+                        </div>
+                        <div class="modal-body">
+                          Apakah anda yakin ingin menghapus ini?
+                        </div>
+                        <div class="modal-footer">
+                          <form action="hapuspelajaran" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="idstart" value="{{ jampel_start.id_jampel_start }}">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-outline-danger">Hapus</button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    $(document).ready(function(){
+      $("#searchbar").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#tablebody .table-row").filter(function() {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+      });
+    });
+  </script>
+{% endblock %}

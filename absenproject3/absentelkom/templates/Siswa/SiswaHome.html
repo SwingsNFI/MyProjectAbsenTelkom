@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% block title %}Absen Telkom - Home{% endblock %}
+{% load custom_template_tags %}
+{% load static %}
+{% block extra_head %}
+  <link rel="icon" type="image/png" href="{% static 'img/ts-3.png' %}">
+  <link rel="stylesheet" href="{% static 'css/Siswa/SiswaHome-style.css' %}">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+{% endblock %}
+{% block content %}
+  <div class="cover-container d-flex w-100 h-100 mx-auto flex-column">
+    <header class="masthead mb-auto">
+      <div class="kotakhead">
+        <form action="logout" method="POST">
+          {% csrf_token %}
+          <button class="logbut" type="submit">Logout</button>
+        </form>
+      </div>
+    </header>   
+    <main role="main" class="cover">
+      <p class="cover-heading">{{ siswa.nama_siswa }}</p>
+      <div class="kelasemail">
+        <div class="d-flex justify-content-center">
+          <p class="lead">{{ siswa.id_kelas.nama_kelas }}</p>
+          <div class="kotak"></div>
+          <p class="lead">{{ siswa.email_siswa }}</p>
+        </div>
+      </div>
+      <div class="d-flex justify-content-center">
+        <div class="poin">
+          {% if absen_amis %}
+            {% for absenami in absen_amis %}
+              {% namvar absenami.penambahan_poin as action %}
+              {% if forloop.last %}
+                {% if validasis %}
+                  {% for validasi in validasis %}
+                    {% namvar validasi.id_absen.id_acara.waktu_acara as action %}
+                    {% if forloop.last %}
+                      <p>{{ action }} POIN</p>
+                      {% namvar2 action as action2 %}
+                    {% endif %}
+                  {% endfor %}
+                {% else %}
+                  <p>{{ action }} POIN</p>
+                  {% namvar2 action as action2 %}
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+          {% else %}
+            {% if validasis %}
+              {% for validasi in validasis %}
+                {% namvar validasi.id_absen.id_acara.waktu_acara as action %}
+                {% if forloop.last %}
+                  <p>{{ action }} POIN</p>
+                  {% namvar2 action as action2 %}
+                {% endif %}
+              {% endfor %}
+            {% else %}
+              <p>0 POIN</p>
+              {% namvar2 0 as action2 %}
+            {% endif %}
+          {% endif %}
+        </div>
+        <input type="hidden" value="{% delnamvar %}">
+      </div>
+      <div class="text-muted">
+        <p>At last 7 days row (beta version)</p>
+      </div>
+      <div class="motivation">
+        {% namvar2 0 as action2 %}
+        {% if action2 >= 5 %}
+          <p><q><i>Terbaik adalah ketika sudah melebihi seluruhnya. Apakah kau orangnya?.</i></q></p>
+        {% endif %}
+        {% if action2 < 5 and action2 >= 2 %}
+          <p><q><i>Impian setiap orang selalu terlihat jauh. Apakah kau ingin menggapainya?.</i></q></p>
+        {% endif %}
+        {% if action2 < 2 %}
+          <p><q><i>Kau tidak rendah. Kau hanya belum mencapainya.</i></q></p>
+        {% endif %}
+        <input type="hidden" value="{% delnamvar2 %}">
+      </div>
+    </main>   
+    <footer class="mastfoot mt-auto">
+      <div class="kotakfoot d-flex justify-content-center">
+        <form action="cta" method="POST" id="katform">
+          {% csrf_token %}
+          <button type="submit" name="cta" id="kat1" value="CTA">Cinta Tanah Air</button>
+        </form>
+        <form action="re" method="POST" id="katform">
+          {% csrf_token %}
+          <button type="submit" name="re" id="kat2" value="RE">Religius</button>
+        </form>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    $(document).ready(function(){
+      $("#katform").submit(function(e){
+        var kat1 = $("#kat1").val();
+        var kat2 = $("#kat2").val();
+        if( kat1 == "DI" || kat2 == "DI"){
+          window.alert("Disiplin Telah Dikunci!");
+          e.preventDefault();
+        }
+      });
+    });
+  </script>
+{% endblock %}

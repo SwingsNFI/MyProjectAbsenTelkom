@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+{% block title %}Absen Telkom - Validasi | AMI{% endblock %}
+{% load static %}
+{% load custom_template_tags %}
+{% block extra_head %}
+  <link rel="icon" type="image/png" href="{% static 'img/ts-3.png' %}">
+  <link rel="stylesheet" href="{% static 'css/Guru/Walas/ValidasiAMI-style.css' %}">
+  <script src="https://kit.fontawesome.com/9a9e698d27.js" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+{% endblock %}
+{% block content %}
+    <nav class="navbar navbar-light flex-md-nowrap p-0">
+      <div class="col-md-3 col-lg-2 mr-0 px-3">
+        <h4 class="nav-text">Validasi</h4>
+      </div>
+      <div class="dropdown nav-text righttext text-nowrap px-3">
+        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          {{ namauser }}
+        </a>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <form action="logout" method="POST">
+            {% csrf_token %}
+            <button class="dropdown-item" type="submit">Logout</button>
+          </form>
+        </div>
+      </div>
+    </nav>
+    <main role="main">
+      <form action="validasiamiprocess" method="POST">
+        {% csrf_token %}
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-5">
+          <h1 class="h1">AMI</h1>  
+        </div>  
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-4 border-bottom">
+          <h5 class="h5">{{ namakelas }}</h5>
+          <div class="d-flex justify-content-end flex-wrap flex-md-nowrap align-items-right">
+            <div class="d-flex flex-column">
+              <label for="startdate">Mulai Pelajaran</label>
+              <select class="form-control custom-select" name="idstart" id="startselect" required>
+                {% for jampel_start in tbl_jampel_start %}
+                  <option value="{{ jampel_start.id_jampel_start }}">{{ jampel_start.nama_jampel_start }} | {{ jampel_start.waktu_jampel_start|date:"H : i" }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="d-flex flex-column">
+              <label for="enddate">Akhir Pelajaran</label>
+              <select class="form-control custom-select" name="idend" id="endselect" required>
+                {% for jampel_end in tbl_jampel_end %}
+                  <option value="{{ jampel_end.id_jampel_end }}">{{ jampel_end.nama_jampel_end }} | {{ jampel_end.waktu_jampel_end|date:"H : i" }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary" id="subbut">Submit<i class="fa fa-arrow-right"></i></button>  
+          </div>   
+        </div>
+        <div class="table-box">
+          <div class="table-head flex-row">
+            <div class="table-cell-head small-cell text-wrap">
+              <p>#</p>
+            </div>
+            <div class="table-cell-head text-wrap">
+              <p>NIS</p>
+            </div>
+            <div class="table-cell-head text-wrap">
+              <p>Nama</p>
+            </div>
+            <div class="table-cell-head text-wrap">
+              <p>Kelas</p>
+            </div>
+            <div class="table-cell-head text-wrap small-cell">
+              <p>Kehadiran</p>
+            </div>
+            <div class="table-cell-head text-wrap small-cell">
+              <p>Kerapihan</p>
+            </div>
+            <div class="table-cell-head text-wrap small-cell">
+              <p>Kebersihan</p>
+            </div>
+          </div>
+          {% for siswa in siswas %}
+            <div class="table-row flex-row">
+              <div class="table-cell small-cell text-wrap">
+                <p>{{ forloop.counter }}</p>
+              </div>
+              <div class="table-cell text-wrap">
+                <p>{{ siswa.id_siswa }}</p>
+              </div>
+              <div class="table-cell text-wrap">
+                <p>{{ siswa.nama_siswa }}</p>
+              </div>
+              <div class="table-cell text-wrap">
+                <p>{{ siswa.id_kelas.nama_kelas }}</p>
+              </div>
+              <div class="table-cell text-wrap small-cell">
+                <input type="checkbox" name="hadir{{ forloop.counter }}" class="validasi1g">
+              </div>
+              <div class="table-cell text-wrap small-cell">
+                <input type="checkbox" name="rapih{{ forloop.counter }}" class="validasi2g">
+              </div>
+              <div class="table-cell text-wrap small-cell">
+                <input type="checkbox" name="bersih{{ forloop.counter }}" class="validasi3g">
+              </div>
+              <input type="hidden" value="{{ siswa.id_siswa }}" name="validasi{{ forloop.counter }}">
+            </div>
+            {% if forloop.last %}
+              <input type="hidden" value="{{ forloop.counter }}" name="lengthloop" id="lengthloop">
+            {% endif %}
+          {% endfor %}
+        </div>
+      </form>
+    </main>
+
+    <script>
+      $(document).ready(function(){
+        $(':checkbox').click(function(){
+          $('.table-row:has(:checked)').addClass('tablecheck');
+          $('.table-row:not(:has(:checked))').removeClass('tablecheck');
+          // var num = $('.validasi1g').length
+          // console.log(num)
+          // console.log(Boolean($('input.validasi1g').is(':checked')))
+          // console.log(Boolean($('input.validasi2g').is(':checked')))
+          // console.log(Boolean($('input.validasi3g').is(':checked')))
+          // if ($(event.target).closest('input.validasi1g').is(':checked') && $(event.target).closest('input.validasi2g').is(':checked') && $(event.target).closest('input.validasi3g').is(':checked')) {
+          //   console.log("t");
+          //   $('.table-row:has(:checked)').addClass('tableallcheck'); 
+          // } else {    
+          //   $('.table-row:has(:checked)').removeClass('tableallcheck');
+          // }
+        });
+        $('#startselect').change(function(){
+          var sel = this.value;
+          var sel2 = $('#endselect').val();
+          if (sel > sel2) {
+            $('#subbut').prop('disabled', true);
+            $('#startselect').addClass('prevent');
+            $('#endselect').addClass('prevent');
+          }else{
+            $('#subbut').prop('disabled', false);
+            $('#startselect').removeClass('prevent');
+            $('#endselect').removeClass('prevent');
+          }
+        });
+        $('#endselect').change(function(){
+          var sel = $('#startselect').val();
+          var sel2 = this.value;
+          if (sel > sel2) {
+            $('#subbut').prop('disabled', true);
+            $('#startselect').addClass('prevent');
+            $('#endselect').addClass('prevent');
+          }else{
+            $('#subbut').prop('disabled', false);
+            $('#startselect').removeClass('prevent');
+            $('#endselect').removeClass('prevent');
+          }
+        });
+        if ($('.table-row').length == 0){
+          $('.btn-primary').prop('disabled', true);
+        }
+        // $("#startselect").change(function(e){
+        //   e.preventDefault();
+        //   var startaj = $(this).val();
+        //   var endaj = $('#endselect').val();
+        //   var len = $('#lengthloop').val();
+        //   // GET AJAX request
+        //   $.ajax({
+        //     type: 'GET',
+        //     url: "{% url 'ajaxcheckpelajaran' %}",
+        //     data: {"startaj": startaj, "endaj": endaj},
+        //     success: function (response) {
+        //         // if not valid user, alert the user
+        //       if(!response["valid"]){
+        //         alert("You cannot create a friend with same nick name");
+        //         var nickName = $("#id_nick_name");
+        //         nickName.val("")
+        //         nickName.focus()
+        //       }
+        //     },
+        //     error: function (response) {
+        //       console.log(response)
+        //     }
+        //   });
+        // });
+      });
+    </script>
+{% endblock %}

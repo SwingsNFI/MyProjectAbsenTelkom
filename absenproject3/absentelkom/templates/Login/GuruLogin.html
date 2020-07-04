@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block title %}Absen Telkom - Login Guru{% endblock %}
+{% load static %}
+{% block extra_head %}
+  <link rel="icon" type="image/png" href="{% static 'img/ts-3.png' %}">
+  <link rel="stylesheet" href="{% static 'css/Login/GuruLogin-style.css' %}">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+{% endblock %}
+{% block content %}
+  <div class="row">
+    <div class="col-md-8">
+      <div class="image-box img-responsive">
+        <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+          <header class="masthead mb-auto">
+          </header>          
+          <main role="main" class="inner cover">
+            <h1 class="cover-heading">Will be soon.</h1>
+            <p class="lead">Please contact the developer for the information.</p>
+          </main>          
+          <footer class="mastfoot mt-auto">
+            <div class="inner">
+              <p>Made by <abbr title="Naufal Fatihul Ihsan, Nathaniel Candra, Calvin & Gustian">IT CLUB</abbr> & <abbr title="Abdul Aziz, Faisal Sanjaya, Tabah Gema, Bintang">RPL</abbr></p>
+            </div>
+          </footer>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-container">    
+        <div class="d-flex justify-content-center">
+          <div class="atasan">
+            <header class="masthead mb-auto"></header>
+            <label>Guru</label>
+            <footer class="mastfoot mt-auto"></footer>
+          </div>
+        </div>
+        <div class="form-box">
+          <form action="guruprocess" method="POST" id="theform">
+            {% csrf_token %}
+            <div class="gambar">
+              <img src="{% static 'img/ts.png' %}" alt="Telkom Schools Logo">
+            </div>
+            <div class="form">
+              <label id="labelkiri" for="nik">Nomor Induk Karyawan (NIK)</label>
+              <input type="text" name="nik" id="nik">
+              <label id="labelkiri" for="password">Password</label>
+              <input type="password" name="password" id="password">
+              <p id="peringatan"></p>
+              {% if messages %}
+                {% for message in messages %}
+                  <p id="peringatan">{{ message }}</p>
+                {% endfor %}
+              {% endif %}
+            </div>
+            <button type="submit" id="logbut">Login</button>
+          </form>
+          <form action="login" method="POST">
+            {% csrf_token %}
+            <button type="submit" id="otbut">Siswa</button>
+          </form>
+        </div>   
+        <div class="bawahan">
+          <label class="leftbawah" for="">SMK Telkom Sandhy Putra Jakarta</label>
+          <label class="rightbawah" for="">Telkom Absen</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    $(document).ready(function(){
+      $("#theform").submit(function(e){
+        var nik = $("#nik").val();
+        var password = $("#password").val();
+        if( nik == '' || password == ''){
+          $("#peringatan").text("Mohon isi terlebih dahulu yang masih kosong!");
+          e.preventDefault();
+        }
+      });
+    });
+  </script>
+{% endblock%}

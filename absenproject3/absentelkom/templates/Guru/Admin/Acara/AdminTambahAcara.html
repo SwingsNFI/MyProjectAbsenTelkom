@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+{% block title %}Absen Telkom - Admin | Tambah Acara{% endblock %}
+{% load static %}
+{% block extra_head %}
+  <link rel="icon" type="image/png" href="{% static 'img/ts-3.png' %}">
+  <link rel="stylesheet" href="{% static 'css/Guru/Admin/Acara/AdminTambahAcara-style.css' %}">
+  <script src="https://kit.fontawesome.com/9a9e698d27.js" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+{% endblock %}
+{% block content %}
+  <nav class="navbar navbar-light sticky-top bg-white flex-md-nowrap p-0">
+    <div class="col-md-3 col-lg-2 mr-0 px-3">
+      <a class="navbar-brand"><img src="{% static 'img/ts-2.png' %}" height="30" alt="Telkom Schools Logo"></a>
+    </div>
+    <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <ul class="navbar-nav px-3">
+      <li class="nav-item text-nowrap">
+        <p class="nav-text">{{ namauser }}</p>
+      </li>
+    </ul>
+  </nav>
+  <div class="container-fluid">
+    <div class="row">
+      <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+        <div class="sidebar-sticky pt-3">
+          <ul class="nav flex-column">
+            <p class="text-secondary"><small>Menu</small></p>
+            <li class="nav-item sidepilih">
+              <a class="nav-link" href="admin">
+                Dashboard <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item sidepilih">
+              <a class="nav-link" href="adminguru">                
+                Guru
+              </a>
+            </li>
+            <li class="nav-item sidepilih">
+              <a class="nav-link" href="adminsiswa">                
+                Siswa
+              </a>
+            </li>
+            <li class="nav-item sidepilih">
+              <a class="nav-link" href="adminkelas">                
+                Kelas
+              </a>
+            </li>
+            <li class="nav-item sidepilih">
+              <a class="nav-link active" href="adminacara">                
+                Acara
+              </a>
+            </li>
+            <p class="text-secondary"><small>Advanced</small></p>
+            <li class="nav-item sidepilih">
+              <a class="nav-link" href="adminpelajaran">
+                Pelajaran
+              </a>
+            </li>
+          </ul>
+          <div class="d-flex nav justify-content-center align-items-center">
+            <a href="logout" class="logobut"><i class="fas fa-sign-out-alt"></i>Logout</a>
+          </div> 
+        </div>
+      </nav>  
+      <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h1 class="h2">Acara</h1>
+        </div>
+        <div class="d-flex align-items-center justify-content-center">
+          <div class="card w-50">
+            <div class="card-header">
+              <b>Tambah Acara</b>
+            </div>
+            <div class="card-body">
+              <form class="needs-validation" action="tambahacaraprocess" method="POST" id="theform" novalidate>
+                {% csrf_token %}
+                <div class="form-group row">
+                  <label for="kategori" class="col-sm-4 col-form-label">Kategori</label>
+                  <div class="col-sm-7">
+                    <select class="form-control custom-select" id="kategori" name="idkat" required disabled>
+                      <option value="DI">Disiplin</option>
+                      <option value="CTA">Cinta Tanah Air</option>
+                      <option value="RE">Religius</option>
+                    </select>
+                    <div class="invalid-feedback">
+                      Mohon untuk isi Kategori.
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="acara" class="col-sm-4 col-form-label">Nama</label>
+                  <div class="col-sm-7">
+                    <select class="form-control custom-select" id="acara" name="namaa" required>
+                      <option value="AMI">AMI</option>
+                      <option value="Upacara">Upacara</option>
+                      <option value="Pramuka">Pramuka</option>
+                      <option value="Ibadah Jum'at">Ibadah Jum'at</option>
+                      <option value="Keputrian">Keputrian</option>
+                      <option value="Tahfidz">Tahfidz</option>
+                    </select>
+                    <div class="invalid-feedback">
+                      Mohon untuk isi Acara.
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="validationCustom01" class="col-sm-4 col-form-label">Waktu</label>
+                  <div class="col-sm-7">
+                    <input type="datetime-local" class="form-control" id="validationCustom01" name="waktua" required>
+                    <div class="invalid-feedback">
+                      Mohon untuk isi Waktu Acara.
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="validationCustom02" class="col-sm-4 col-form-label">Keterangan</label>
+                  <div class="col-sm-7">
+                    <input type="text" class="form-control" id="validationCustom02" placeholder="Keterangan" maxlength="399" name="keta" required>
+                    <div class="invalid-feedback">
+                      Mohon untuk isi Keterangan Acara.
+                    </div>
+                  </div>
+                </div>
+              <button type="submit" class="btn btn-primary text-right">Submit</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    $(document).ready(function(){
+      $('#theform').on('submit', function() {
+        $('#kategori').prop('disabled', false);
+      });
+      $('#acara').change(function(){
+        if($(this).val() == "AMI") {
+          $('#kategori').val('DI');
+        }else if($(this).val() == "Upacara"){
+          $('#kategori').val('CTA');
+        }else if($(this).val() == "Pramuka"){
+          $('#kategori').val('CTA');
+        }else if($(this).val() == "Ibadah Jum'at"){
+          $('#kategori').val('RE');
+        }else if($(this).val() == "Keputrian"){
+          $('#kategori').val('RE');
+        }else if($(this).val() == "Tahfidz"){
+          $('#kategori').val('RE');
+        }else{
+          $('.btn-primary').prop('disabled', true);
+        }
+      })
+    });
+    (function() {
+        'use strict';
+        window.addEventListener('load', function() {
+          var forms = document.getElementsByClassName('needs-validation');
+          var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+              if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+              }
+              form.classList.add('was-validated');
+            }, false);
+          });
+        }, false);
+      })();
+  </script>
+{% endblock %}

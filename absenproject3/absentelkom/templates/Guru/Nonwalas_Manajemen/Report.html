@@ -1,0 +1,252 @@
+{% extends 'base.html' %}
+{% block title %}Absen Telkom - Report{% endblock %}
+{% load static %}
+{% load custom_template_tags %}
+{% block extra_head %}
+  <link rel="icon" type="image/png" href="{% static 'img/ts-3.png' %}">
+  <link rel="stylesheet" href="{% static 'css/Guru/NonWalas_Manajemen/Report-style.css' %}">
+  <script src="https://kit.fontawesome.com/9a9e698d27.js" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+{% endblock %}
+{% block content %}
+  <div class="preload">
+    <div class="spinner-border" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+    <h5>Tunggu Sebentar...</h5>
+  </div>
+  <main role="main" class="content">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-5 mb-3">
+      <h3 class="h3">Report</h3>
+      <a href="logout" class="logout">Logout<i class="fas fa-sign-out-alt"></i></a>
+    </div>
+    <form class="needs-validation" action="sortingreport" method="POST" novalidate>
+      {% csrf_token %}
+      <div class="d-flex flex-wrap flex-md-nowrap align-items-left pb-2 mb-3">
+        <div class="d-flex flex-column">
+          <label for="validationCustom01">Start Date</label>
+          <input type="date" class="form-control" id="validationCustom01" name="start" required>
+        </div>
+        <div class="d-flex flex-column">
+          <label for="validationCustom02">End Date</label>
+          <input type="date" class="form-control" id="validationCustom02" name="end" required>
+        </div>
+        <div class="d-flex flex-column">
+          <label for="kelas">Kelas</label>
+          <select name="idkelas" class="form-control" id="kelas" required>
+            {% for kelas in tbl_kelas %}
+              <option value="{{ kelas.id_kelas }}">{{ kelas.nama_kelas }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="d-flex flex-column">
+          <button type="submit" class="btn btn-info">Show</button>
+        </div>
+        <div class="d-flex flex-column">
+          <a href="report" class="btn btn-outline-info">Reset</a>
+        </div>
+      </div>
+    </form>
+    <div class="table-box">
+      <div class="table-head flex-row">
+        <div class="table-cell-head small-cell text-wrap">
+          <p>#</p>
+        </div>
+        <div class="table-cell-head text-wrap">
+          <p>NIS</p>
+        </div>
+        <div class="table-cell-head text-wrap">
+          <p>Nama</p>
+        </div>
+        <div class="table-cell-head text-wrap">
+          <p>Kelas</p>
+        </div>
+        <div class="table-cell-head text-wrap">
+          <p>Upacara</p>
+        </div>
+        <div class="table-cell-head text-wrap">
+          <p>Pramuka</p>
+        </div>
+        <div class="table-cell-head text-wrap">
+          <p>Tahfidz</p>
+        </div>
+        <div class="table-cell-head text-wrap">
+          <p>Ibadah Jum'at</p>
+        </div>
+        <div class="table-cell-head text-wrap">
+          <p>Keputrian</p>
+        </div>
+        <div class="table-cell-head text-wrap">
+          <p>AMI</p>
+        </div>
+        <div class="table-cell-head text-wrap">
+          <p>Detail AMI</p>
+        </div>
+        <div class="table-cell-head text-wrap">
+          <p>Total</p>
+        </div>
+      </div>
+      {% for siswa in tbl_siswa %}
+        <div class="table-row flex-row">
+          <div class="table-cell small-cell text-wrap">
+            <p>{{ forloop.counter }}</p>
+          </div>
+          <div class="table-cell text-wrap">
+            <p>{{ siswa.id_siswa }}</p>
+          </div>
+          <div class="table-cell text-wrap">
+            <p>{{ siswa.nama_siswa }}</p>
+          </div>
+          <div class="table-cell text-wrap">
+            <p>{{ siswa.id_kelas.nama_kelas }}</p>
+          </div>
+          <div class="table-cell text-wrap">
+            {% if tbl_validasi %}
+              {% for validasi in tbl_validasi %}
+                {% if validasi.id_absen.id_siswa_id == siswa.id_siswa and validasi.id_absen.id_acara.nama_acara|upper == "UPACARA" %}
+                  {% namvar validasi.penambahan_poin as action %}
+                  {% namvar4 validasi.penambahan_poin as action4 %}
+                {% endif %}
+                {% if forloop.last %}
+                  <p>{{ action }}</p>
+                  <input type="hidden" value="{% delnamvar %}">
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          </div>
+          <div class="table-cell text-wrap">
+            {% if tbl_validasi %}
+              {% for validasi in tbl_validasi %}
+                {% if validasi.id_absen.id_siswa_id == siswa.id_siswa and validasi.id_absen.id_acara.nama_acara|upper == "PRAMUKA" %}
+                  {% namvar validasi.penambahan_poin as action %}
+                  {% namvar4 validasi.penambahan_poin as action4 %}
+                {% endif %}
+                {% if forloop.last %}
+                  <p>{{ action }}</p>
+                  <input type="hidden" value="{% delnamvar %}">
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          </div>
+          <div class="table-cell text-wrap">
+            {% if tbl_validasi %}
+              {% for validasi in tbl_validasi %}
+                {% if validasi.id_absen.id_siswa_id == siswa.id_siswa and validasi.id_absen.id_acara.nama_acara|upper == "TAHFIDZ" %}
+                  {% namvar validasi.penambahan_poin as action %}
+                  {% namvar4 validasi.penambahan_poin as action4 %}
+                {% endif %}
+                {% if forloop.last %}
+                  <p>{{ action }}</p>
+                  <input type="hidden" value="{% delnamvar %}">
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          </div>
+          <div class="table-cell text-wrap">
+            {% if tbl_validasi %}
+              {% for validasi in tbl_validasi %}
+                {% if validasi.id_absen.id_siswa_id == siswa.id_siswa and validasi.id_absen.id_acara.nama_acara|upper == "IBADAH JUM'AT" %}
+                  {% namvar validasi.penambahan_poin as action %}
+                  {% namvar4 validasi.penambahan_poin as action4 %}
+                {% endif %}
+                {% if forloop.last %}
+                  <p>{{ action }}</p>
+                  <input type="hidden" value="{% delnamvar %}">
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          </div>
+          <div class="table-cell text-wrap">
+            {% if tbl_validasi %}
+              {% for validasi in tbl_validasi %}
+                {% if validasi.id_absen.id_siswa_id == siswa.id_siswa and validasi.id_absen.id_acara.nama_acara|upper == "KEPUTRIAN" %}
+                  {% namvar validasi.penambahan_poin as action %}
+                  {% namvar4 validasi.penambahan_poin as action4 %}
+                {% endif %}
+                {% if forloop.last %}
+                  <p>{{ action }}</p>
+                  <input type="hidden" value="{% delnamvar %}">
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          </div>
+          <div class="table-cell text-wrap">
+            {% if tbl_absen_ami %}
+              {% for absen_ami in tbl_absen_ami %}
+                {% if absen_ami.id_siswa_id == siswa.id_siswa and absen_ami.id_acara.nama_acara|upper == "AMI" %}
+                  {% namvar absen_ami.penambahan_poin as action %}
+                  {% namvar4 absen_ami.penambahan_poin as action4 %}
+                {% endif %}
+                {% if forloop.last %}
+                  <p>{{ action }}</p>
+                  <input type="hidden" value="{% delnamvar %}">
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          </div>
+          <div class="table-cell text-wrap">
+            <button type="submit" class="btn btn-secondary detbut" data-toggle="modal" data-target="#modal{{ forloop.counter }}">Detail</button>
+            <div class="modal fade" id="modal{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Detail AMI</h5>
+                  </div>
+                  <div class="modal-body">
+                    {% if tbl_absen_ami %}
+                      {% for absen_ami in tbl_absen_ami %}
+                        {% if absen_ami.id_siswa_id == siswa.id_siswa and absen_ami.id_acara.nama_acara|upper == "AMI" %}
+                          {% namvar absen_ami.kehadiran|yesno:"1,0" as action %}
+                          {% namvar2 absen_ami.kerapihan|yesno:"1,0" as action2 %}
+                          {% namvar3 absen_ami.kebersihan|yesno:"1,0" as action3 %}
+                        {% endif %}
+                        {% if forloop.last %}
+                          <p><b>Kehadiran</b>: {{ action }}</p>
+                          <p><b>Kerapihan</b>: {{ action2 }}</p>
+                          <p><b>Kebersihan</b>: {{ action3 }}</p>
+                          <input type="hidden" value="{% delnamvar %}">
+                          <input type="hidden" value="{% delnamvar2 %}">
+                          <input type="hidden" value="{% delnamvar3 %}">
+                        {% endif %}
+                      {% endfor %}
+                    {% endif %}
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="table-cell text-wrap">
+            {% namvar4 0 as action4 %}
+            <p>{{ action4 }}</p>
+            <input type="hidden" value="{% delnamvar4 %}">
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </main>
+
+  <script>
+    window.addEventListener("load", function () {
+      const preload = document.querySelector(".preload");
+      preload.className += " hidden";
+    });
+    (function() {
+      'use strict';
+      window.addEventListener('load', function() {
+        var forms = document.getElementsByClassName('needs-validation');
+        var validation = Array.prototype.filter.call(forms, function(form) {
+          form.addEventListener('submit', function(event) {
+            if (form.checkValidity() === false) {
+              event.preventDefault();
+              event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+          }, false);
+        });
+      }, false);
+    })();
+  </script>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Absen Telkom - Home{% endblock %}
+{% load static %}
+{% block extra_head %}
+  <link rel="icon" type="image/png" href="{% static 'img/ts-3.png' %}">
+  <link rel="stylesheet" href="{% static 'css/Guru/Walas/WalasHome-style.css' %}">
+{% endblock %}
+{% block content %}
+  <div class="cover-container d-flex w-100 h-100 mx-auto flex-column">
+    <header class="masthead mb-auto">
+      <div class="kotakhead">
+        <form action="logout" method="POST">
+          {% csrf_token %}
+          <button class="logbut" type="submit">Logout</button>
+        </form>
+      </div>
+    </header>   
+    <main role="main" class="cover">
+      <p class="cover-heading">{{ guru.nama_guru }}</p>
+      <div class="kelasemail">
+        <div class="d-flex justify-content-center">
+          <p class="lead">{{ guru.email_guru }}</p>
+        </div>
+      </div>
+    </main>   
+    <footer class="mastfoot mt-auto">
+      <div class="kotakfoot d-flex justify-content-center">
+        <form action="di" method="POST">
+          {% csrf_token %}
+          <button type="submit" name="di" value="DI">Disiplin</button>
+        </form>
+        <form action="cta" method="POST">
+          {% csrf_token %}
+          <button type="submit" name="cta" value="CTA">Cinta Tanah Air</button>
+        </form>
+        <form action="re" method="POST">
+          {% csrf_token %}
+          <button type="submit" name="re" value="RE">Religius</button>
+        </form>
+      </div>
+    </footer>
+  </div>
+{% endblock %}
