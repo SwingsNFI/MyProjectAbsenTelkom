@@ -1,0 +1,159 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+body, html{
+    height: 100%;
+    overflow: hidden;
+}
+.row{
+    margin: 0 !important;
+    height: 100%;
+}
+.col-md-8, .col-md-4{
+    padding: initial !important;
+    height: 100%;
+}
+.image-box{
+    height: 100%;
+    background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url("/static/img/SiswaPicture.JPG");
+    background-size: cover;
+    background-position: center;
+    text-align: center;
+}
+.cover-heading{
+    font-family: 'Georgia', Times New Roman, Times, serif;
+    color: azure;
+    font-size: 70px;
+}
+.lead{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: azure;
+}
+mark{
+    background-color: #E82228;
+    color: bisque;
+}
+footer p{
+    color: #808183;
+    padding: 0;
+    margin: 0;
+    font-size: 13px;
+}
+main{
+    margin-top: 25px;
+}
+.form-container {
+    height: 100%;
+}
+.form-box{
+    padding: 100px 70px;
+    text-align: center;
+    height: 95%;
+}
+.form-box img{
+    height: 110px;
+    margin-bottom: 30px;
+}
+#labelkiri{
+    font-size: 12px;
+    float: left;
+    margin-bottom: 2px;
+}
+.form-box input{
+    margin-bottom: 10px;
+    width: 100%;
+    border-radius: 5px;
+    height: 38px;
+    padding: 5px 8px;
+    outline: none;
+}
+.form-box button{
+    width: 100%;
+    border-radius: 5px;
+    height: 38px;
+    padding: 5px;
+    margin-bottom: 14px;
+    border: none;
+    font-size: 12px;
+    color: azure;
+}
+#logbut{
+    background-color: #221E20;
+    outline: none;
+}
+#otbut{
+    background-color: #E82228;
+    outline: none;
+}
+#otbut:hover{
+    background-color: #AE1E24;
+}
+#logbut:active{
+    background-color: white;
+    border: solid #221E20 2px;
+    color: #221E20;
+}
+#otbut:active{
+    background-color: white;
+    border: solid #AE1E24 2px;
+    color: #AE1E24;
+}
+.form{
+    margin-bottom: 25px;
+}
+#peringatan{
+    font-size: 12px;
+    color: #E82228;
+    text-align: left;
+}
+.bawahan{
+    height: 5%;
+    padding: 0px 25px;
+    font-size: 13px;
+    color: #8099AE;
+}
+.tulisan{
+    padding: 70px 45px;
+    color: azure;
+    height: 100%;
+}
+.bigwords{
+    padding-top: 30px;
+    font-size: 80px;
+}
+.bigwords p{
+    margin-bottom: 0px;
+}
+#kotak{
+    background-color: red;
+    width: 500px;
+    height: 20px;
+    position: fixed;
+    margin-bottom: 40px;
+}
+.leftbawah{
+    float: left;
+}
+.rightbawah{
+    float: right;
+}
+
+@media screen and (max-width:1024px) {  
+    .form-box{
+        padding: 100px 40px;
+    }
+}
+@media screen and (max-width:767px) {  
+    .col-md-8{
+        display: none;
+    }
+    body, html{
+        overflow: auto;
+    }
+}
+@media screen and (max-height:530px) {  
+    .bawahan {
+        display: none;
+    }
+}

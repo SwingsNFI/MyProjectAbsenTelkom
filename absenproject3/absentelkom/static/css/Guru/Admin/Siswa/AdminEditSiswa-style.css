@@ -1,0 +1,133 @@
+body{
+    background-color: rgb(250, 250, 250);
+}
+.navbar-brand {
+    padding-top: .75rem;
+    padding-bottom: .75rem;
+    padding-left: .50rem;
+    font-size: 1rem;
+}
+.navbar .form-control {
+    position: absolute;
+    padding: .75rem 1rem;
+    border-width: 0;
+    border-radius: 2px;
+    left: 18.5%;
+}
+.navbar .navbar-toggler {
+    top: .25rem;
+    right: 1rem;
+}
+.sidepilih{
+    margin-bottom: 10px;
+}
+.form-control-white {
+    color: #070607;
+    background-color: #F1F1F1;
+    border-color: rgba(255, 255, 255, .1);
+}
+.form-control-white:focus {
+    border-color: transparent;
+    background-color: #F1F1F1;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
+}
+.nav-text{
+    margin: 0;
+}
+.sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 100; /* Behind the navbar */
+    padding: 60px 10px; /* Height of navbar */
+    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+    background-color: #393939;
+} 
+.sidebar-sticky {
+    position: relative;
+    top: 0;
+    height: calc(100vh - 48px);
+    padding-top: 30px;
+    overflow-x: hidden;
+    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+} 
+.sidebar .nav-link {
+    font-weight: 500;
+    color: azure;
+    font-size: 14px;
+}
+.nav-link:hover{
+    background-color: #6b6b6b;
+}
+.sidebar .nav-link .feather {
+    margin-right: 4px;
+    color: #999;
+}
+.sidebar .nav-link.active {
+    background-color: #585858;
+    border-radius: 2px;
+}
+.sidebar .nav-link:hover .feather, .sidebar .nav-link.active .feather {
+    color: inherit;
+}
+.sidebar-heading {
+    font-size: .75rem;
+    text-transform: uppercase;
+}
+.flex-column{
+    height: 88%;
+}
+.fa-sign-out-alt{
+    margin-right: 5px;
+}
+.logobut{
+    color: #999;
+}
+.logobut:hover{
+    color: azure;
+}
+.card{
+    margin-top: 25px;
+    border: none;
+    box-shadow: 0px 2px 10px 0px rgba(31, 31, 31, 0.055);
+}
+.card-header{
+    background-color: white;
+    font-size: 18px;
+    color: #505050;
+}
+.card-body label{
+    margin-right: 10px;
+    font-size: 14px;
+    color: #585858;
+}
+.btn{
+    float: right;
+    margin-right: 7%;
+}
+.col-form-label{
+    padding-right: 0px;
+}
+
+@media (max-width: 767.98px) {
+    .sidebar {
+      top: 5rem;
+    }
+    .navbar .form-control {
+        position: relative;
+        left: 0;
+    }
+    .w-50{
+        width: 75%!important;
+    }
+    .flex-column{
+        height: auto;
+    }
+}
+@supports ((position: -webkit-sticky) or (position: sticky)) {
+    .sidebar-sticky {
+      position: -webkit-sticky;
+      position: sticky;
+    }
+}

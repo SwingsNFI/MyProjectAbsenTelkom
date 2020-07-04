@@ -1,0 +1,132 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+body{
+  text-align: center;
+}
+html, body {
+  height: 100%;
+}
+body {
+  display: -ms-flexbox;
+  display: flex;
+}
+.masthead {
+  margin-bottom: 2rem;
+}
+.kotakhead{
+  background-color: #221E20;
+  width: 100%;
+  height: 40px;
+}
+.kotakhead form{
+  height: 100%;
+}
+.logbut{
+  height: 100%;
+  width: 150px;
+  border: none;
+  background-color: #161415;
+  color: azure;
+  outline: none;
+}
+.kotakhead button:hover{
+  background-color: #2b2729;
+}
+.kotakhead button:active{
+  background-color: #070607;
+}
+.kotakfoot{
+  background-color: #AE1E24;
+  width: 100%;
+  height: 40px;
+}
+.kotakfoot button{
+  height: 100%;
+  width: 150px;
+  border: none;
+  background-color: #90181E;
+  color: azure;
+  float: left;
+  margin: 0 3px;
+  outline: none;
+}
+.kotakfoot button:hover{
+  background-color: #2b2729;
+}
+.kotakfoot button:active{
+  background-color: #58595B;
+}
+.cover-heading{
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 40px;
+  padding: 0 1.5rem;
+}
+.kelasemail .kotak {
+  float: left;
+  background-color: rgba(88, 89, 91, 0.7);
+  height: 30px;
+  width: 3px;
+  margin: 0 15px;
+}
+.kelasemail{
+  width: 100%;
+  padding: 0;
+  margin-bottom: 10px;
+}
+.lead {
+  float: left;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #58595B;
+}
+.poin{
+  width: 150px;
+  background: linear-gradient(to right, #AE1E24, #E82228);
+  color: azure;
+  padding: 5px 0px;
+}
+.poin p{
+  margin: 0;
+}
+.text-muted{
+  font-size: 14px;
+}
+.motivation{
+  margin-top: 44px;
+  margin-left: 20px;
+  margin-right: 20px;
+  font-size: 16px;
+}
+
+@media screen and (max-width:600px) {  
+  .kelasemail .kotak {
+    height: 20px;
+  }
+  .motivation{
+    font-size: 12px;
+  }
+  .poin{
+    width: 110px;
+    font-size: 12px;
+  }
+  .cover-heading{
+    font-size: 30px;
+  }
+  .kotakhead button{
+    width: 100px;
+    font-size: 14px;
+  }
+  .kotakfoot button{
+    width: 100px;
+    font-size: 14px;
+  }
+  .lead{
+    font-size: 14px;
+  }
+}
+@media screen and (max-width:300px) { 
+  .lead{
+    font-size: 10px;
+  }
+}
